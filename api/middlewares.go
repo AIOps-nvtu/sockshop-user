@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/go-kit/kit/log"
+	"github.com/go-kit/kit/log/level"
 	"github.com/go-kit/kit/metrics"
 	"github.com/microservices-demo/user/users"
 )
@@ -28,7 +29,7 @@ type loggingMiddleware struct {
 
 func (mw loggingMiddleware) Login(username, password string) (user users.User, err error) {
 	defer func(begin time.Time) {
-		mw.logger.Log(
+		level.Info(mw.logger).Log(
 			"method", "Login",
 			"took", time.Since(begin),
 		)
@@ -38,7 +39,7 @@ func (mw loggingMiddleware) Login(username, password string) (user users.User, e
 
 func (mw loggingMiddleware) Register(username, password, email, first, last string) (string, error) {
 	defer func(begin time.Time) {
-		mw.logger.Log(
+		level.Info(mw.logger).Log(
 			"method", "Register",
 			"username", username,
 			"email", email,
@@ -50,7 +51,7 @@ func (mw loggingMiddleware) Register(username, password, email, first, last stri
 
 func (mw loggingMiddleware) PostUser(user users.User) (id string, err error) {
 	defer func(begin time.Time) {
-		mw.logger.Log(
+		level.Info(mw.logger).Log(
 			"method", "PostUser",
 			"username", user.Username,
 			"email", user.Email,
@@ -67,7 +68,7 @@ func (mw loggingMiddleware) GetUsers(id string) (u []users.User, err error) {
 		if who == "" {
 			who = "all"
 		}
-		mw.logger.Log(
+		level.Info(mw.logger).Log(
 			"method", "GetUsers",
 			"id", who,
 			"result", len(u),
@@ -79,7 +80,7 @@ func (mw loggingMiddleware) GetUsers(id string) (u []users.User, err error) {
 
 func (mw loggingMiddleware) PostAddress(add users.Address, id string) (string, error) {
 	defer func(begin time.Time) {
-		mw.logger.Log(
+		level.Info(mw.logger).Log(
 			"method", "PostAddress",
 			"street", add.Street,
 			"number", add.Number,
@@ -96,7 +97,7 @@ func (mw loggingMiddleware) GetAddresses(id string) (a []users.Address, err erro
 		if who == "" {
 			who = "all"
 		}
-		mw.logger.Log(
+		level.Info(mw.logger).Log(
 			"method", "GetAddresses",
 			"id", who,
 			"result", len(a),
@@ -110,7 +111,7 @@ func (mw loggingMiddleware) PostCard(card users.Card, id string) (string, error)
 	defer func(begin time.Time) {
 		cc := card
 		cc.MaskCC()
-		mw.logger.Log(
+		level.Info(mw.logger).Log(
 			"method", "PostCard",
 			"card", cc.LongNum,
 			"user", id,
@@ -126,7 +127,7 @@ func (mw loggingMiddleware) GetCards(id string) (a []users.Card, err error) {
 		if who == "" {
 			who = "all"
 		}
-		mw.logger.Log(
+		level.Info(mw.logger).Log(
 			"method", "GetCards",
 			"id", who,
 			"result", len(a),
@@ -138,7 +139,7 @@ func (mw loggingMiddleware) GetCards(id string) (a []users.Card, err error) {
 
 func (mw loggingMiddleware) Delete(entity, id string) (err error) {
 	defer func(begin time.Time) {
-		mw.logger.Log(
+		level.Info(mw.logger).Log(
 			"method", "Delete",
 			"entity", entity,
 			"id", id,
@@ -150,7 +151,7 @@ func (mw loggingMiddleware) Delete(entity, id string) (err error) {
 
 func (mw loggingMiddleware) Health() (health []Health) {
 	defer func(begin time.Time) {
-		mw.logger.Log(
+		level.Info(mw.logger).Log(
 			"method", "Health",
 			"result", len(health),
 			"took", time.Since(begin),
