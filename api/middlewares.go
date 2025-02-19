@@ -34,7 +34,15 @@ func (mw loggingMiddleware) Login(username, password string) (user users.User, e
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	return mw.next.Login(username, password)
+	user, err = mw.next.Login(username, password)
+	if err != nil {
+		level.Error(mw.logger).Log(
+			"method", "Login",
+			"result", "error",
+			"error", err.Error(),
+		)
+	}
+	return user, err
 }
 
 func (mw loggingMiddleware) Register(username, password, email, first, last string) (string, error) {
@@ -46,7 +54,15 @@ func (mw loggingMiddleware) Register(username, password, email, first, last stri
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	return mw.next.Register(username, password, email, first, last)
+	id, err := mw.next.Register(username, password, email, first, last)
+	if err != nil {
+		level.Error(mw.logger).Log(
+			"method", "Login",
+			"result", "error",
+			"error", err.Error(),
+		)
+	}
+	return id, err	
 }
 
 func (mw loggingMiddleware) PostUser(user users.User) (id string, err error) {
@@ -59,7 +75,15 @@ func (mw loggingMiddleware) PostUser(user users.User) (id string, err error) {
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	return mw.next.PostUser(user)
+	id, err = mw.next.PostUser(user)
+	if err != nil {
+		level.Error(mw.logger).Log(
+			"method", "Login",
+			"result", "error",
+			"error", err.Error(),
+		)
+	}
+	return id, err	
 }
 
 func (mw loggingMiddleware) GetUsers(id string) (u []users.User, err error) {
@@ -75,7 +99,15 @@ func (mw loggingMiddleware) GetUsers(id string) (u []users.User, err error) {
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	return mw.next.GetUsers(id)
+	u, err = mw.next.GetUsers(id)
+	if err != nil {
+		level.Error(mw.logger).Log(
+			"method", "Login",
+			"result", "error",
+			"error", err.Error(),
+		)
+	}
+	return u, err
 }
 
 func (mw loggingMiddleware) PostAddress(add users.Address, id string) (string, error) {
@@ -88,7 +120,15 @@ func (mw loggingMiddleware) PostAddress(add users.Address, id string) (string, e
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	return mw.next.PostAddress(add, id)
+	adds, err := mw.next.PostAddress(add, id)
+	if err != nil {
+		level.Error(mw.logger).Log(
+			"method", "Login",
+			"result", "error",
+			"error", err.Error(),
+		)
+	}
+	return adds, err
 }
 
 func (mw loggingMiddleware) GetAddresses(id string) (a []users.Address, err error) {
@@ -104,7 +144,15 @@ func (mw loggingMiddleware) GetAddresses(id string) (a []users.Address, err erro
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	return mw.next.GetAddresses(id)
+	a, err = mw.next.GetAddresses(id)
+	if err != nil {
+		level.Error(mw.logger).Log(
+			"method", "Login",
+			"result", "error",
+			"error", err.Error(),
+		)
+	}
+	return a, err	
 }
 
 func (mw loggingMiddleware) PostCard(card users.Card, id string) (string, error) {
@@ -118,7 +166,15 @@ func (mw loggingMiddleware) PostCard(card users.Card, id string) (string, error)
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	return mw.next.PostCard(card, id)
+	id, err := mw.next.PostCard(card, id)
+	if err != nil {
+		level.Error(mw.logger).Log(
+			"method", "Login",
+			"result", "error",
+			"error", err.Error(),
+		)
+	}
+	return id, err
 }
 
 func (mw loggingMiddleware) GetCards(id string) (a []users.Card, err error) {
@@ -134,7 +190,15 @@ func (mw loggingMiddleware) GetCards(id string) (a []users.Card, err error) {
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	return mw.next.GetCards(id)
+	a, err = mw.next.GetCards(id)
+	if err != nil {
+		level.Error(mw.logger).Log(
+			"method", "Login",
+			"result", "error",
+			"error", err.Error(),
+		)
+	}
+	return a, err
 }
 
 func (mw loggingMiddleware) Delete(entity, id string) (err error) {
@@ -146,7 +210,15 @@ func (mw loggingMiddleware) Delete(entity, id string) (err error) {
 			"took", time.Since(begin),
 		)
 	}(time.Now())
-	return mw.next.Delete(entity, id)
+	err = mw.next.Delete(entity, id)
+	if err != nil {
+		level.Error(mw.logger).Log(
+			"method", "Login",
+			"result", "error",
+			"error", err.Error(),
+		)
+	}
+	return err
 }
 
 func (mw loggingMiddleware) Health() (health []Health) {
